@@ -46,7 +46,8 @@ transaction-system/
 ├── mvnw, mvnw.cmd            # Maven wrapper scripts
 ├── .mvn/                     # Maven wrapper binaries
 ├── pom.xml                   # Project dependencies & build config
-├── README.md                 # This documentation
+├── LICENSE                   # MIT License
+├── .gitignore                # Ignore build artifacts
 └── src/
     └── main/
         ├── java/com/example/transaction/
@@ -93,6 +94,9 @@ transaction-system/
 ---
 
 ## ⚙️ Installation & Setup
+
+> **Note:** Build artifacts in the `target/` directory are already ignored via `.gitignore` to keep your working copy clean.
+
 1. **Clone** the repo:
    ```bash
    git clone https://github.com/Adityarajsingh2904/transaction-system.git
