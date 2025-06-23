@@ -8,9 +8,12 @@ import com.example.transaction.service.TransactionService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@Validated
 @RequestMapping("transaction")
 @CrossOrigin
 public class TransactionController {
@@ -19,14 +22,14 @@ public class TransactionController {
     TransactionService transactionService;
     @GetMapping()
     public ResponseEntity<TransactionsResponse> getAllTransactions(
-            @RequestParam(name = "pageNumber") Long pageNumber,
-            @RequestParam(name = "sort") String sort
+            @Valid @RequestParam(name = "pageNumber") Long pageNumber,
+            @Valid @RequestParam(name = "sort") String sort
     ){
         return transactionService.getAllTransactions(pageNumber,sort);
     }
 
     @GetMapping("/{transactionId}")
-    public ResponseEntity<TransactionDetails> getInstallmentsForTransactions(@PathVariable Long transactionId){
+    public ResponseEntity<TransactionDetails> getInstallmentsForTransactions(@Valid @PathVariable Long transactionId){
         return transactionService.getTransactionData(transactionId);
     }
 }

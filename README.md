@@ -103,9 +103,17 @@ transaction-system/
    cd transaction-system
    ```
 2. **Ensure Java 17**+ is installed and `JAVA_HOME` is set.
+   If `./mvnw` complains about a missing `JAVA_HOME`, point it to your JDK:
+   ```bash
+   export JAVA_HOME=/path/to/your/jdk
+   ```
 3. **Build** the project:
    ```bash
    ./mvnw clean package -DskipTests
+   ```
+   Or set `JAVA_HOME` inline when running the wrapper:
+   ```bash
+   JAVA_HOME=/path/to/your/jdk ./mvnw clean install
    ```
 4. **Run** locally:
    ```bash
