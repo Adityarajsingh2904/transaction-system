@@ -6,6 +6,7 @@ import com.example.transaction.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.Duration;
 import java.util.*;
 
 @Repository
@@ -38,5 +39,26 @@ public class TransactionDao {
             transaction.setTotalPaidAmount(totalPaidAmount);
         }
         return transaction;
+    }
+
+    public boolean isAnomalous(Transaction newTransaction, long windowMinutes) {
+        List<Transaction> transactions = transactionRepository.findAll();
+        for (Transaction txn : transactions) {
+            if (txn.getSender().equals(newTransaction.getSender()) &&
+                txn.getReceiver().equals(newTransaction.getReceiver()) &&
+                Math.abs(txn.getTotalAmount() - newTransaction.getTotalAmount()) <= 0 &&
+                Math.abs(Duration.between(txn.getCreatedAt(), newTransaction.getCreatedAt()).toMinutes()) < windowMinutes) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Transaction save(Transaction transaction) {
+        if (isAnomalous(transaction, 10)) {
+            // simple flagging by returning null
+            return null;
+        }
+        return transactionRepository.save(transaction);
     }
 }

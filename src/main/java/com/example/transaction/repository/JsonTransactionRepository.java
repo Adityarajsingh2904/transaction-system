@@ -5,6 +5,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Repository;
+import java.io.FileWriter;
+import java.time.LocalDateTime;
 
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -30,7 +32,9 @@ public class JsonTransactionRepository implements TransactionRepository {
                 String sender = (String) object.get("sender");
                 String receiver = (String) object.get("receiver");
                 Long totalAmount = (Long) object.get("totalAmount");
-                transactions.add(new Transaction(id, sender, receiver, totalAmount, 0L));
+                String createdAtStr = (String) object.get("createdAt");
+                LocalDateTime createdAt = LocalDateTime.parse(createdAtStr);
+                transactions.add(new Transaction(id, sender, receiver, totalAmount, 0L, createdAt));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -52,9 +56,42 @@ public class JsonTransactionRepository implements TransactionRepository {
                     String sender = (String) object.get("sender");
                     String receiver = (String) object.get("receiver");
                     Long totalAmount = (Long) object.get("totalAmount");
-                    return new Transaction(transId, sender, receiver, totalAmount, 0L);
+                    String createdAtStr = (String) object.get("createdAt");
+                    LocalDateTime createdAt = LocalDateTime.parse(createdAtStr);
+                    return new Transaction(transId, sender, receiver, totalAmount, 0L, createdAt);
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Transaction save(Transaction transaction) {
+        try {
+            // Load existing transactions
+            List<Transaction> transactions = findAll();
+            transactions.add(transaction);
+
+            JSONArray array = new JSONArray();
+            for (Transaction t : transactions) {
+                JSONObject obj = new JSONObject();
+                obj.put("id", t.getId());
+                obj.put("sender", t.getSender());
+                obj.put("receiver", t.getReceiver());
+                obj.put("totalAmount", t.getTotalAmount());
+                obj.put("createdAt", t.getCreatedAt().toString());
+                array.add(obj);
+            }
+
+            JSONObject root = new JSONObject();
+            root.put("data", array);
+
+            FileWriter writer = new FileWriter(filePath);
+            writer.write(root.toJSONString());
+            writer.close();
+            return transaction;
         } catch (Exception e) {
             e.printStackTrace();
         }

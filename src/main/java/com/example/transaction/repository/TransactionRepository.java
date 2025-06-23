@@ -6,4 +6,5 @@ import java.util.List;
 public interface TransactionRepository {
     List<Transaction> findAll();
     Transaction find(Long id);
+    Transaction save(Transaction transaction);
 }
