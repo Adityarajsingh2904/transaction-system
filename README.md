@@ -34,6 +34,7 @@ Transaction-System is a **lightweight RESTful service** for managing parent-chil
 - 🗃️ **RESTful API**: CRUD-like operations for transactions and installments.
 - 📈 **Aggregate Computations**: Calculates sum of child payments per parent on the fly.
 - 📦 **Standalone JAR & Docker**: Run locally or in a container via the provided `Dockerfile`.
+- 📝 **Swagger UI**: Interactive API docs available at `/swagger-ui.html`.
 
 ---
 
@@ -141,6 +142,8 @@ curl http://localhost:8080/parent/1
 # → { "id":1, "sender":"Alice", "receiver":"Bob", "totalAmount":1000, "sumPaid":200 }
 ```
 
+Visit `http://localhost:8080/swagger-ui.html` for interactive API documentation.
+
 ---
 
 ## 🛡️ Error Handling & Validation
@@ -160,7 +163,7 @@ curl http://localhost:8080/parent/1
 
 ## 🗺️ Roadmap
 - [ ] Persist data in **PostgreSQL** or **H2** instead of JSON files.
-- [ ] Add **Swagger/OpenAPI** documentation at `/swagger-ui.html`.
+- [x] Add **Swagger/OpenAPI** documentation at `/swagger-ui.html`.
 - [ ] Implement **CRUD** endpoints for POST/PUT/DELETE.
 - [ ] Introduce **security** with Spring Security (JWT).
 
