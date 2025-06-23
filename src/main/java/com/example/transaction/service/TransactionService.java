@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,9 @@ public class TransactionService {
 
     public ResponseEntity<TransactionDetails> getTransactionData(Long transactionId) {
         try {
-            return new ResponseEntity<>(new TransactionDetails(transactionDao.find(transactionId),InstallmentDao.find(transactionId)), HttpStatus.OK);
+            List<Installment> installments = installmentDao.find(transactionId);
+            Transaction transaction = transactionDao.find(transactionId);
+            return new ResponseEntity<>(new TransactionDetails(transaction, installments), HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
         }
