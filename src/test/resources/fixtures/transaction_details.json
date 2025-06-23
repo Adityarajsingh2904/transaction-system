@@ -1,0 +1,14 @@
+{
+  "transaction": {
+    "id": 1,
+    "sender": "ABC",
+    "receiver": "XYZ",
+    "totalAmount": 200,
+    "totalPaidAmount": 100
+  },
+  "installments": [
+    { "id": 1, "parentId": 1, "paidAmount": 10 },
+    { "id": 2, "parentId": 1, "paidAmount": 50 },
+    { "id": 3, "parentId": 1, "paidAmount": 40 }
+  ]
+}
